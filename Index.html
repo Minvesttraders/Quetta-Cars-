@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="ur" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quetta Cars</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        /* Custom scrollbar for a cleaner look */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #1A202C; /* Dark charcoal */
+        }
+        ::-webkit-scrollbar-thumb {
+            background-color: #00C9B8; /* Electric teal/cyan */
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background-color: #00a89a;
+        }
+
+        /* Basic global styles */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #F7FAFC; /* Light background */
+            color: #1A202C; /* Dark charcoal text */
+        }
+
+        /* 3D-style hover for cards */
+        .card-hover-effect {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .card-hover-effect:hover {
+            transform: translateY(-5px) rotateX(2deg) rotateY(2deg) scale(1.02); /* Slight tilt, lift, and scale */
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2); /* Enhanced shadow */
+        }
+
+        /* Modal animations */
+        .modal-enter-active, .modal-leave-active {
+            transition: opacity 0.3s ease, transform 0.3s ease;
+        }
+        .modal-enter-from, .modal-leave-to {
+            opacity: 0;
+            transform: scale(0.9);
+        }
+        .modal-enter-to, .modal-leave-from {
+            opacity: 1;
+            transform: scale(1);
+        }
+    </style>
+</head>
+<body class="bg-gray-100 text-gray-800 flex flex-col min-h-screen">
+
+    <div id="app" class="flex-grow">
+        <div id="auth-view" class="flex items-center justify-center min-h-screen bg-gray-900 bg-opacity-90">
+            <div class="bg-white p-8 rounded-lg shadow-xl w-full max-w-md">
+                <h2 class="text-3xl font-bold text-center mb-6 text-teal-600">کوئٹہ کارز</h2>
+                <div id="auth-forms">
+                    Loading authentication forms...
+                </div>
+            </div>
+        </div>
+
+        <div id="main-app-view" class="hidden">
+            <header class="bg-dark-charcoal text-white p-4 shadow-lg flex items-center justify-between sticky top-0 z-10">
+                <div class="flex items-center space-x-4">
+                    <img src="https://via.placeholder.com/40" alt="Quetta Cars Logo" class="h-10 w-10 rounded-full">
+                    <span class="text-2xl font-bold text-electric-teal">کوئٹہ کارز</span>
+                </div>
+                <div class="flex-grow mx-4">
+                    <input type="text" id="search-bar" placeholder="گاڑی کا نام یا ماڈل تلاش کریں..." class="w-full p-2 rounded-lg bg-gray-700 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-electric-teal">
+                </div>
+                <div class="flex items-center space-x-4">
+                    <button id="create-post-btn" class="bg-electric-teal hover:bg-teal-600 text-white font-bold py-2 px-4 rounded-lg flex items-center transition duration-300 ease-in-out transform hover:scale-105">
+                        <i class="fas fa-plus-circle mr-2"></i> نیا پوسٹ کریں
+                    </button>
+                    <button id="language-toggle" class="bg-gray-700 hover:bg-gray-600 text-white font-bold py-2 px-4 rounded-lg transition duration-300 ease-in-out transform hover:scale-105">
+                        English
+                    </button>
+                    <div class="relative group">
+                        <button id="user-menu-btn" class="bg-gray-700 hover:bg-gray-600 text-white font-bold py-2 px-4 rounded-lg flex items-center transition duration-300 ease-in-out transform hover:scale-105">
+                            <i class="fas fa-user-circle mr-2"></i> <span id="user-display-name">صارف</span>
+                        </button>
+                        <div id="user-menu-dropdown" class="absolute left-0 mt-2 w-48 bg-gray-800 rounded-md shadow-lg py-1 z-20 hidden">
+                            <a href="#" id="profile-link" class="block px-4 py-2 text-sm text-white hover:bg-gray-700"><i class="fas fa-id-card mr-2"></i> میرا پروفائل</a>
+                            <a href="#" id="admin-panel-link" class="hidden block px-4 py-2 text-sm text-white hover:bg-gray-700"><i class="fas fa-user-shield mr-2"></i> ایڈمن پینل</a>
+                            <a href="#" id="logout-btn" class="block px-4 py-2 text-sm text-white hover:bg-gray-700"><i class="fas fa-sign-out-alt mr-2"></i> لاگ آؤٹ</a>
+                        </div>
+                    </div>
+                </div>
+            </header>
+
+            <main class="container mx-auto p-4 flex-grow">
+                <div id="feed-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <div class="bg-white rounded-lg shadow-md p-6 card-hover-effect">
+                        <h3 class="text-xl font-semibold mb-2">گاڑی کا نمونہ</h3>
+                        <p class="text-gray-600 mb-4">ماڈل: 2023 | حالت: نئی</p>
+                        <p class="text-2xl font-bold text-electric-teal">قیمت: 5,000,000 PKR</p>
+                    </div>
+                </div>
+                <div id="post-detail-view" class="hidden">
+                    </div>
+                <div id="user-profile-view" class="hidden">
+                    </div>
+                <div id="chat-view" class="hidden">
+                    </div>
+                <div id="admin-panel-view" class="hidden">
+                    </div>
+                 <div id="membership-activation-view" class="hidden">
+                    </div>
+            </main>
+        </div>
+    </div>
+
+    <div id="post-creation-modal" class="fixed inset-0 bg-gray-900 bg-opacity-75 flex items-center justify-center z-50 hidden modal-enter-from">
+        <div class="bg-white p-8 rounded-lg shadow-xl w-11/12 md:w-3/4 lg:w-1/2 max-h-[90vh] overflow-y-auto relative modal-enter-from">
+            <button id="close-post-modal" class="absolute top-4 right-4 text-gray-600 hover:text-gray-900 text-2xl">
+                <i class="fas fa-times-circle"></i>
+            </button>
+            <h2 class="text-3xl font-bold text-center mb-6 text-electric-teal">نیا کار پوسٹ کریں</h2>
+            <form id="post-car-form" class="space-y-4">
+                <div>
+                    <label for="car-name" class="block text-sm font-medium text-gray-700">گاڑی کا نام</label>
+                    <input type="text" id="car-name" name="car-name" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2 focus:ring-electric-teal focus:border-electric-teal" required>
+                </div>
+                <div>
+                    <label for="car-model" class="block text-sm font-medium text-gray-700">ماڈل</label>
+                    <input type="text" id="car-model" name="car-model" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2 focus:ring-electric-teal focus:border-electric-teal" required>
+                </div>
+                <div>
+                    <label for="car-condition" class="block text-sm font-medium text-gray-700">حالت</label>
+                    <select id="car-condition" name="car-condition" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2 focus:ring-electric-teal focus:border-electric-teal" required>
+                        <option value="">حالت منتخب کریں</option>
+                        <option value="new">نئی</option>
+                        <option value="used">استعمال شدہ</option>
+                    </select>
+                </div>
+                <div>
+                    <label for="car-price" class="block text-sm font-medium text-gray-700">قیمت (PKR)</label>
+                    <input type="number" id="car-price" name="car-price" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2 focus:ring-electric-teal focus:border-electric-teal" required>
+                </div>
+                <div>
+                    <label for="car-description" class="block text-sm font-medium text-gray-700">تفصیلی وضاحت</label>
+                    <textarea id="car-description" name="car-description" rows="4" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2 focus:ring-electric-teal focus:border-electric-teal" required></textarea>
+                </div>
+                <div>
+                    <label for="car-images" class="block text-sm font-medium text-gray-700">تصاویر (زیادہ سے زیادہ 20)</label>
+                    <input type="file" id="car-images" name="car-images" accept="image/*" multiple class="mt-1 block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-electric-teal file:text-white hover:file:bg-teal-600" required>
+                    <div id="image-previews" class="mt-4 grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-4">
+                        </div>
+                </div>
+                <button type="submit" class="w-full bg-electric-teal hover:bg-teal-600 text-white font-bold py-3 px-4 rounded-lg transition duration-300 ease-in-out transform hover:scale-105 flex items-center justify-center">
+                    <i class="fas fa-upload mr-2"></i> پوسٹ کریں
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-storage.js"></script>
+
+    <script>
+        // Firebase configuration will go here
+        const firebaseConfig = {
+            apiKey: "YOUR_API_KEY",
+            authDomain: "YOUR_AUTH_DOMAIN",
+            projectId: "YOUR_PROJECT_ID",
+            storageBucket: "YOUR_STORAGE_BUCKET",
+            messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
+            appId: "YOUR_APP_ID"
+        };
+
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+        const auth = firebase.auth();
+        const db = firebase.firestore();
+        const storage = firebase.storage();
+
+        // Global variables for UI elements
+        const authView = document.getElementById('auth-view');
+        const mainAppView = document.getElementById('main-app-view');
+        const authFormsDiv = document.getElementById('auth-forms');
+        const createPostBtn = document.getElementById('create-post-btn');
+        const postCreationModal = document.getElementById('post-creation-modal');
+        const closePostModalBtn = document.getElementById('close-post-modal');
+        const postCarForm = document.getElementById('post-car-form');
+        const carImagesInput = document.getElementById('car-images');
+        const imagePreviewsDiv = document.getElementById('image-previews');
+        const languageToggleBtn = document.getElementById('language-toggle');
+        const userMenuBtn = document.getElementById('user-menu-btn');
+        const userMenuDropdown = document.getElementById('user-menu-dropdown');
+        const profileLink = document.getElementById('profile-link');
+        const adminPanelLink = document.getElementById('admin-panel-link');
+        const logoutBtn = document.getElementById('logout-btn');
+        const userDisplayName = document.getElementById('user-display-name');
+        const searchBar = document.getElementById('search-bar');
+        const feedContainer = document.getElementById('feed-container');
+        const postDetailView = document.getElementById('post-detail-view');
+        const userProfileView = document.getElementById('user-profile-view');
+        const chatView = document.getElementById('chat-view');
+        const adminPanelView = document.getElementById('admin-panel-view');
+        const membershipActivationView = document.getElementById('membership-activation-view');
+
+
+        // Language state and translations
+        let currentLanguage = 'ur'; // Default to Urdu
+
+        const translations = {
+            ur: {
+                appName: "کوئٹہ کارز",
+                searchPlaceholder: "گاڑی کا نام یا ماڈل تلاش کریں...",
+                createPost: "نیا پوسٹ کریں",
+                english: "English",
+                user: "صارف",
+                myProfile: "میرا پروفائل",
+                adminPanel: "ایڈمن پینل",
+                logout: "لاگ آؤٹ",
+                newCarPost: "نیا کار پوسٹ کریں",
+                carName: "گاڑی کا نام",
+                model: "ماڈل",
+                condition: "حالت",
+                selectCondition: "حالت منتخب کریں",
+                new: "نئی",
+                used: "استعمال شدہ",
+                price: "قیمت (PKR)",
+                detailedDescription: "تفصیلی وضاحت",
+                images: "تصاویر (زیادہ سے زیادہ 20)",
+                post: "پوسٹ کریں",
+                sampleCar: "گاڑی کا نمونہ",
+                sampleModel: "ماڈل: 2023",
+                sampleCondition: "حالت: نئی",
+                samplePrice: "قیمت: 5,000,000 PKR",
+                loginHeader: "کوئٹہ کارز",
+                email: "ای میل",
+                password: "پاس ورڈ",
+                login: "لاگ ان کریں",
+                noAccount: "اکاؤنٹ نہیں ہے؟",
+                signupHere: "یہاں سائن اپ کریں",
+                signupHeader: "کوئٹہ کارز",
+                signup: "سائن اپ کریں",
+                haveAccount: "اکاؤنٹ ہے؟",
+                loginHere: "یہاں لاگ ان کریں",
+                showroomName: "شو روم کا نام",
+                contactNumber: "رابطہ نمبر",
+                address: "پتہ",
+            },
+            en: {
+                appName: "Quetta Cars",
+                searchPlaceholder: "Search car name or model...",
+                createPost: "Create New Post",
+                english: "اردو",
+                user: "User",
+                myProfile: "My Profile",
+                adminPanel: "Admin Panel",
+                logout: "Logout",
+                newCarPost: "Post New Car",
+                carName: "Car Name",
+                model: "Model",
+                condition: "Condition",
+                selectCondition: "Select Condition",
+                new: "New",
+                used: "Used",
+                price: "Price (PKR)",
+                detailedDescription: "Detailed Description",
+                images: "Images (Max 20)",
+                post: "Post",
+                sampleCar: "Sample Car",
+                sampleModel: "Model: 2023",
+                sampleCondition: "Condition: New",
+                samplePrice: "Price: 5,000,000 PKR",
+                loginHeader: "Quetta Cars",
+                email: "Email",
+                password: "Password",
+                login: "Login",
+                noAccount: "Don't have an account?",
+                signupHere: "Sign up here",
+                signupHeader: "Quetta Cars",
+                signup: "Sign Up",
+                haveAccount: "Already have an account?",
+                loginHere: "Login here",
+                showroomName: "Showroom Name",
+                contactNumber: "Contact Number",
+                address: "Address",
+            }
+        };
+
+        // Function to apply translations
+        function applyTranslations() {
+            const t = translations[currentLanguage];
+            document.title = t.appName;
+            document.querySelector('.text-electric-teal').innerText = t.appName;
+            searchBar.placeholder = t.searchPlaceholder;
+            createPostBtn.querySelector('span').innerText = t.createPost;
+            languageToggleBtn.innerText = t.english;
+            userDisplayName.innerText = t.user;
+            profileLink.querySelector('span').innerText = t.myProfile;
+            adminPanelLink.querySelector('span').innerText = t.adminPanel;
+            logoutBtn.querySelector('span').innerText = t.logout;
+
+            // Post creation modal
+            document.querySelector('#post-creation-modal h2').innerText = t.newCarPost;
+            document.querySelector('label[for="car-name"]').innerText = t.carName;
+            document.querySelector('label[for="car-model"]').innerText = t.model;
+            document.querySelector('label[for="car-condition"]').innerText = t.condition;
+            document.querySelector('#car-condition option[value=""]').innerText = t.selectCondition;
+            document.querySelector('#car-condition option[value="new"]').innerText = t.new;
+            document.querySelector('#car-condition option[value="used"]').innerText = t.used;
+            document.querySelector('label[for="car-price"]').innerText = t.price;
+            document.querySelector('label[for="car-description"]').innerText = t.detailedDescription;
+            document.querySelector('label[for="car-images"]').innerText = t.images;
+            document.querySelector('#post-car-form button[type="submit"]').innerText = t.post;
+
+            // Sample car card
+            document.querySelector('.card-hover-effect h3').innerText = t.sampleCar;
+            document.querySelector('.card-hover-effect p:nth-of-type(1)').innerText = `${t.model}: 2023 | ${t.condition}: ${t.new}`;
+            document.querySelector('.card-hover-effect p:nth-of-type(2)').innerText = `${t.price}: 5,000,000 PKR`;
+
+            // Update direction for Urdu
+            if (currentLanguage === 'ur') {
+                document.documentElement.setAttribute('dir', 'rtl');
+                document.body.classList.add('rtl');
+                document.body.classList.remove('ltr');
+            } else {
+                document.documentElement.setAttribute('dir', 'ltr');
+                document.body.classList.add('ltr');
+                document.body.classList.remove('rtl');
+            }
+        }
+
+        // Language Toggle Event Listener
+        languageToggleBtn.addEventListener('click', () => {
+            currentLanguage = currentLanguage === 'ur' ? 'en' : 'ur';
+            applyTranslations();
+        });
+
+        // Initialize with default Urdu translations
+        applyTranslations();
+
+        // User menu dropdown toggle
+        userMenuBtn.addEventListener('click', () => {
+            userMenuDropdown.classList.toggle('hidden');
+        });
+
+        // Close dropdown when clicking outside
+        window.addEventListener('click', (event) => {
+            if (!userMenuBtn.contains(event.target) && !userMenuDropdown.contains(event.target)) {
+                userMenuDropdown.classList.add('hidden');
+            }
+        });
+
+        // Placeholder function for UI navigation (will be expanded)
+        function showView(viewId) {
+            const views = [authView, mainAppView, postCreationModal, postDetailView, userProfileView, chatView, adminPanelView, membershipActivationView];
+            views.forEach(view => {
+                if (view && view.id !== viewId) { // Ensure view exists and is not the target view
+                    view.classList.add('hidden');
+                }
+            });
+            const targetView = document.getElementById(viewId);
+            if (targetView) {
+                 // Apply modal specific transitions
+                if (viewId === 'post-creation-modal') {
+                    targetView.classList.remove('hidden', 'modal-enter-from');
+                    setTimeout(() => targetView.classList.add('modal-enter-to'), 10); // Small delay for transition to apply
+                } else {
+                    targetView.classList.remove('hidden');
+                }
+            }
+        }
+
+        // --- Event Listeners for Modal
