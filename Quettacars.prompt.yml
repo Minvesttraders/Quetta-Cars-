@@ -1,0 +1,134 @@
+messages:
+  - role: system
+    content: >-
+      Application Generation Master Prompt: Quetta Cars - The Ultimate Dealer
+      Network
+
+      High-Level Objective:
+
+      Create a visually stunning, complete, single-file, multi-user web
+      application named "Quetta Cars". This application will serve as a premium,
+      paid, B2B network for professional car dealers in Quetta. The entire
+      application must be built using Firebase for a real-time, secure, and
+      scalable backend. The user experience should be modern, intuitive, and
+      feature-rich, with a strong emphasis on high-quality design, animations,
+      and professional aesthetics.
+
+      1. Core Technology & Design Philosophy
+       * File Structure: A single, self-contained HTML file.
+       * Frontend Framework: Tailwind CSS for all styling. Use the latest Font Awesome library for all icons.
+       * Design Aesthetics (Critical):
+         * Color Palette: A modern and sophisticated color scheme. Avoid basic primary colors. Utilize a professional palette such as dark charcoal (#1A202C) as a base, with a vibrant, electric teal/cyan (#00C9B8) for accents, buttons, and highlights. Use shades of grey for text and backgrounds (e.g., #F7FAFC for light backgrounds).
+         * Animations: The UI must feel alive and responsive. Implement smooth, subtle 3D-style animations. For example, car post cards should slightly tilt and lift with a soft shadow effect on hover. Modals and popups should fade in and scale up smoothly. Use CSS transitions for all interactive elements.
+         * Layout: The layout must be clean, spacious, fully responsive, and professional on all devices, from mobile phones to desktops.
+       * Backend: Firebase (version 8 or newer SDKs).
+         * Authentication: For secure user signup and login.
+         * Firestore: As the primary real-time database for all application data.
+         * Storage: For all user-uploaded files, especially high-resolution images.
+       * Language: The UI must support both Urdu and English, with a user-accessible toggle. Urdu should be the default language.
+      2. The User Experience (UX) Flow
+       * Homepage (The Main Feed):
+         * This is the primary screen for all active dealers.
+         * Header: A clean header containing the app logo, a prominent top search bar, and the "Create Post" button.
+         * "Create Post" Button: Instead of a form, this should be a single, elegant button in the header (e.g., "+ Post Car").
+         * Car Feed: The main body of the page will be a responsive grid (e.g., 1 column on mobile, 2 on tablet, 3 on desktop) displaying all car posts. Each post should be a visually appealing "card" with the 3D hover effect.
+       * Post Creation (Popup Modal):
+         * Clicking the "+ Post Car" button must open a full-screen popup modal. The background should blur or darken to focus the user on the form.
+         * The form inside the modal must be comprehensive: Car Name, Model, Condition, Price, a detailed description, and a multi-image uploader.
+         * Image Uploader: This is a critical feature. It must allow the user to select and upload up to 20 pictures for a single car post. It should show a preview of the selected images before uploading.
+       * Onboarding & Automatic Admin:
+         * First User is Admin: The very first user to sign up for the application is automatically assigned the admin role and their status is set to active.
+         * Admin-Controlled Payments: The Admin Panel will have a master switch to enable or disable the membership payment system.
+           * If Payments are OFF: Any new user who signs up will have their status immediately set to active and can use the app right away.
+           * If Payments are ON: New users will be created with a new status and redirected to a "Membership Activation" page to pay and submit proof, after which their status becomes payment_pending until approved by the admin.
+      3. Core Application Features
+
+      A. Homepage & Posting System
+       * The homepage is the central hub, displaying all car posts in a grid.
+       * The Search Bar at the top must filter the posts on the feed in real-time as the user types the car's name or model.
+       * Each car post card must be clickable, leading to a detailed view of that car with all 20 images in a gallery format.
+      B. User Profile & Customization
+       * Every user has a dedicated profile page displaying their Showroom Name, contact details, a large customizable cover photo, a profile picture, and a grid of all their car posts.
+       * The profile must display a Star Badge rating (1-5 stars), which can only be set or changed by the Admin.
+      C. Chat & Communication System
+       * Private Chat: A one-to-one, real-time chat feature between any two dealers in the network.
+       * Global Chat Room: A single public chat room for all active members.
+       * Voice Message Simulation: Both chat types must include a microphone icon. On click, it should simulate recording and send a placeholder message (e.g., [Voice Message: 12s]).
+       * Chat Moderation (Global Chat): The Admin can mute any user. The Admin can also promote any user to a "Moderator" role. Moderators can also mute other non-admin users.
+      D. The Admin Panel
+
+      A secure, comprehensive dashboard ac
+  - role: user
+    content: 'Pull out the action items from this meeting transcript: {{input}}'
+model: openai/gpt-4o
+responseFormat: json_schema
+testData: []
+evaluators:
+  - name: QUETTA cars
+    llm:
+      model: gpt-4.1
+      modelId: 'azureml://registries/azure-openai/models/gpt-4.1/versions/2025-04-14'
+      prompt: >-
+        Application Generation Master Prompt: Quetta Cars - The Ultimate Dealer
+        Network
+
+        High-Level Objective:
+
+        Create a visually stunning, complete, single-file, multi-user web
+        application named "Quetta Cars". This application will serve as a
+        premium, paid, B2B network for professional car dealers in Quetta. The
+        entire application must be built using Firebase for a real-time, secure,
+        and scalable backend. The user experience should be modern, intuitive,
+        and feature-rich, with a strong emphasis on high-quality design,
+        animations, and professional aesthetics.
+
+        1. Core Technology & Design Philosophy
+         * File Structure: A single, self-contained HTML file.
+         * Frontend Framework: Tailwind CSS for all styling. Use the latest Font Awesome library for all icons.
+         * Design Aesthetics (Critical):
+           * Color Palette: A modern and sophisticated color scheme. Avoid basic primary colors. Utilize a professional palette such as dark charcoal (#1A202C) as a base, with a vibrant, electric teal/cyan (#00C9B8) for accents, buttons, and highlights. Use shades of grey for text and backgrounds (e.g., #F7FAFC for light backgrounds).
+           * Animations: The UI must feel alive and responsive. Implement smooth, subtle 3D-style animations. For example, car post cards should slightly tilt and lift with a soft shadow effect on hover. Modals and popups should fade in and scale up smoothly. Use CSS transitions for all interactive elements.
+           * Layout: The layout must be clean, spacious, fully responsive, and professional on all devices, from mobile phones to desktops.
+         * Backend: Firebase (version 8 or newer SDKs).
+           * Authentication: For secure user signup and login.
+           * Firestore: As the primary real-time database for all application data.
+           * Storage: For all user-uploaded files, especially high-resolution images.
+         * Language: The UI must support both Urdu and English, with a user-accessible toggle. Urdu should be the default language.
+        2. The User Experience (UX) Flow
+         * Homepage (The Main Feed):
+           * This is the primary screen for all active dealers.
+           * Header: A clean header containing the app logo, a prominent top search bar, and the "Create Post" button.
+           * "Create Post" Button: Instead of a form, this should be a single, elegant button in the header (e.g., "+ Post Car").
+           * Car Feed: The main body of the page will be a responsive grid (e.g., 1 column on mobile, 2 on tablet, 3 on desktop) displaying all car posts. Each post should be a visually appealing "card" with the 3D hover effect.
+         * Post Creation (Popup Modal):
+           * Clicking the "+ Post Car" button must open a full-screen popup modal. The background should blur or darken to focus the user on the form.
+           * The form inside the modal must be comprehensive: Car Name, Model, Condition, Price, a detailed description, and a multi-image uploader.
+           * Image Uploader: This is a critical feature. It must allow the user to select and upload up to 20 pictures for a single car post. It should show a preview of the selected images before uploading.
+         * Onboarding & Automatic Admin:
+           * First User is Admin: The very first user to sign up for the application is automatically assigned the admin role and their status is set to active.
+           * Admin-Controlled Payments: The Admin Panel will have a master switch to enable or disable the membership payment system.
+             * If Payments are OFF: Any new user who signs up will have their status immediately set to active and can use the app right away.
+             * If Payments are ON: New users will be created with a new status and redirected to a "Membership Activation" page to pay and submit proof, after which their status becomes payment_pending until approved by the admin.
+        3. Core Application Features
+
+        A. Homepage & Posting System
+         * The homepage is the central hub, displaying all car posts in a grid.
+         * The Search Bar at the top must filter the posts on the feed in real-time as the user types the car's name or model.
+         * Each car post card must be clickable, leading to a detailed view of that car with all 20 images in a gallery format.
+        B. User Profile & Customization
+         * Every user has a dedicated profile page displaying their Showroom Name, contact details, a large customizable cover photo, a profile picture, and a grid of all their car posts.
+         * The profile must display a Star Badge rating (1-5 stars), which can only be set or changed by the Admin.
+        C. Chat & Communication System
+         * Private Chat: A one-to-one, real-time chat feature between any two dealers in the network.
+         * Global Chat Room: A single public chat room for all active members.
+         * Voice Message Simulation: Both chat types must include a microphone icon. On click, it should simulate recording and send a placeholder message (e.g., [Voice Message: 12s]).
+         * Chat Moderation (Global Chat): The Admin can mute any user. The Admin can also promote any user to a "Moderator" role. Moderators can also mute other non-admin users.
+        D. The Admin Panel
+
+        A secure, comprehensive dashboard ac
+      choices:
+        - choice: Pass
+          score: 1
+      systemPrompt: 'New latest '
+      modelParameters:
+        presence_penalty: 1
